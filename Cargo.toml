@@ -1,6 +1,6 @@
 [package]
 name = "temperature_converter"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Michael Berry <trismegustis@gmail.com>"]
 edition = "2018"
 
@@ -10,8 +10,8 @@ edition = "2018"
 name = "temperature_conversion"
 path = "src/lib.rs"
 
-#[[bin]]
-#name = "temperature_converter"
-#path = "src/main.rs"
+[[bin]]
+name = "temperature_converter"
+path = "src/main.rs"
 
 [dependencies]

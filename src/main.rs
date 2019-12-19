@@ -1,50 +1,64 @@
 use std::env;
 use std::io;
 use std::io::Write;
+use std::process;
 extern crate temperature_conversion;
+use temperature_conversion::command::Command;
 use temperature_conversion::temperatures::{print_temperature, Temperature};
 
 fn main() {
     let args: Vec<String> = env::args().collect();
 
-    match args.len() {
-        2 => {
-            if &args[1] == "help" {
-                help(&args[0]);
-            } else if &args[1] == "ftoc" {
-                eprintln!("Add a degree Fahrenheit to convert to Celsius.");
-            } else if &args[1] == "ctof" {
-                eprintln!("Add a degree Celsius to convert to Fahrenheit.");
-            } else {
-                eprintln!("Error: Unknown command!\n");
-                help(&args[0]);
-            }
+    let command = Command::new(&args).unwrap_or_else(|e| {
+        eprintln!("Problem parsing arguments: {}", e);
+        process::exit(1);
+    });
+
+    if let Err(e) = run_command(&args[0], command) {
+        eprintln!("\n{}\n", e);
+        process::exit(1);
+    };
+}
+
+// Run one of the available commands
+fn run_command(prog: &str, command: Command) -> Result<(), &'static str> {
+    match command.command.as_str() {
+        "interactive" => {
+            run_interactive_loop();
+            Ok(())
         }
-        3 => run_command(args),
-        _ => run_interactive_loop(),
+        "ftoc" => match command.degrees.parse() {
+            Ok(t) => {
+                print_temperature(&Temperature::F(t));
+                Ok(())
+            }
+            Err(_) => {
+                help(prog);
+                Err("Error: Could not parse degrees!")
+            }
+        },
+        "ctof" => match command.degrees.parse() {
+            Ok(t) => {
+                print_temperature(&Temperature::C(t));
+                Ok(())
+            }
+            Err(_) => {
+                help(prog);
+                Err("Error: Could not parse degrees!")
+            }
+        },
+        "help" => {
+            help(prog);
+            Ok(())
+        }
+        _ => {
+            help(prog);
+            Err("Error: Unknown command!")
+        }
     }
 }
 
-/// Run one off conversion commands from the command line
-fn run_command(args: Vec<String>) {
-    let prog = args[0].as_str();
-    let command = args[1].as_str();
-    let degrees = args[2].as_str();
-
-    match command {
-        "ftoc" => match degrees.parse() {
-            Ok(t) => print_temperature(&Temperature::F(t)),
-            Err(_) => help(prog),
-        },
-        "ctof" => match degrees.parse() {
-            Ok(t) => print_temperature(&Temperature::C(t)),
-            Err(_) => help(prog),
-        },
-        _ => eprintln!("Invalid command!"),
-    }
-}
-
-/// Display help
+// Display help
 fn help(prog: &str) {
     eprintln!("Valid commands\n");
     eprintln!("{} ftoc degrees_fahrenheit", prog);
@@ -55,7 +69,7 @@ fn help(prog: &str) {
     eprintln!("\tRun interactive program");
 }
 
-/// Run an interactive loop of the program
+// Run an interactive loop of the program
 fn run_interactive_loop() {
     println!("Temperature Converter\n");
     println!("Type 'exit' or 'quit' to leave\n");
@@ -110,7 +124,7 @@ fn run_interactive_loop() {
     }
 }
 
-/// Get a temperature from user and parse it into a usable number
+// Get a temperature from user and parse it into a usable number
 fn get_temperature(s: &'static str) -> Result<f64, &'static str> {
     print!("{}", s);
     io::stdout().flush().unwrap();
