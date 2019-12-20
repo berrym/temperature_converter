@@ -22,7 +22,7 @@ pub mod command {
                     command = args[1].to_string();
                     degrees = args[2].to_string();
                 }
-                _ => return Err("Command::new Wrong number of arguments!"),
+                _ => return Err("Wrong number of arguments!"),
             }
 
             Ok(Command { command, degrees })
