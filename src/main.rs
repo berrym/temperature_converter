@@ -2,7 +2,7 @@ use std::env;
 use std::io;
 use std::io::Write;
 use std::process;
-extern crate temperature_conversion;
+
 use temperature_conversion::command::Command;
 use temperature_conversion::temperatures::{print_temperature, Temperature};
 
