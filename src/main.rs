@@ -34,7 +34,7 @@ fn run_command(prog: &str, command: Command) -> Result<(), &'static str> {
             }
             Err(_) => {
                 help(prog);
-                Err("Error: Could not parse degrees!")
+                Err("Error: Could not parse degrees Fahrenheit!")
             }
         },
         "ctof" => match command.degrees.parse() {
@@ -44,7 +44,7 @@ fn run_command(prog: &str, command: Command) -> Result<(), &'static str> {
             }
             Err(_) => {
                 help(prog);
-                Err("Error: Could not parse degrees!")
+                Err("Error: Could not parse degrees Celsius!")
             }
         },
         "help" => {
@@ -125,8 +125,8 @@ fn run_interactive_loop() {
 }
 
 // Get a temperature from user and parse it into a usable number
-fn get_temperature(s: &'static str) -> Result<f64, &'static str> {
-    print!("{}", s);
+fn get_temperature(prompt: &'static str) -> Result<f64, &'static str> {
+    print!("{}", prompt);
     io::stdout().flush().unwrap();
 
     let mut temperature = String::new();
