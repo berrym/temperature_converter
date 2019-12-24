@@ -100,8 +100,7 @@ fn run_interactive_loop() {
 
         match choice {
             1 => {
-                let degrees = get_temperature("Enter ºF: ");
-                match degrees {
+                match get_temperature("Enter ºF: ") {
                     Ok(t) => print_temperature(&Temperature::F(t)),
                     Err(e) => {
                         eprintln!("{}", e);
@@ -110,17 +109,16 @@ fn run_interactive_loop() {
                 }
             }
             2 => {
-                let degrees = get_temperature("Enter ºC: ");
-                match degrees {
+                match get_temperature("Enter ºC: ") {
                     Ok(t) => print_temperature(&Temperature::C(t)),
                     Err(e) => {
                         eprintln!("{}", e);
                         continue;
                     }
-                }
-            }
+		}
+	    }
             _ => eprintln!("\nEnter 1, 2, exit, or quit!\n"),
-        }
+	}
     }
 }
 
