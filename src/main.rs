@@ -4,7 +4,7 @@ use std::io::Write;
 use std::process;
 
 use temperature_conversion::command::Command;
-use temperature_conversion::temperatures::{print_temperature, Temperature};
+use temperature_conversion::temperatures::{convert, print_temperature, Temperature};
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -76,7 +76,8 @@ fn run_interactive_loop() {
 
     loop {
         println!("1: Fahrenheit to Celsius");
-        println!("2: Celsius to Fahrenheit\n");
+        println!("2: Celsius to Fahrenheit");
+        println!("3: Print a list of common conversions\n");
         print!("Choice: ");
         io::stdout().flush().unwrap();
 
@@ -98,27 +99,48 @@ fn run_interactive_loop() {
             }
         };
 
-        match choice {
-            1 => {
-                match get_temperature("Enter ºF: ") {
-                    Ok(t) => print_temperature(&Temperature::F(t)),
-                    Err(e) => {
-                        eprintln!("{}", e);
-                        continue;
-                    }
-                }
-            }
-            2 => {
-                match get_temperature("Enter ºC: ") {
-                    Ok(t) => print_temperature(&Temperature::C(t)),
-                    Err(e) => {
-                        eprintln!("{}", e);
-                        continue;
-                    }
-		}
-	    }
-            _ => eprintln!("\nEnter 1, 2, exit, or quit!\n"),
-	}
+        if let Err(e) = match_user_choice(choice) {
+            eprintln!("{}", e);
+            continue;
+        };
+    }
+}
+
+// Print a common list of conversions
+fn print_common_table() {
+    let celsius_table: Vec<f64> = vec![
+        -40.0, -30.0, -20.0, -10.0, 0.0, 10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0,
+        100.0,
+    ];
+    let fahrenheit_table: Vec<f64> = celsius_table
+        .iter()
+        .cloned()
+        .map(|x| convert(&Temperature::C(x)))
+        .collect();
+
+    for (x, y) in celsius_table
+        .iter()
+        .cloned()
+        .zip(fahrenheit_table.iter().cloned())
+    {
+        println!("{:.2}ºC = {:.2}ºF", x, y);
+    }
+    println!();
+}
+
+// Match user's choice to appropriate function call
+fn match_user_choice(choice: u8) -> Result<(), &'static str> {
+    match choice {
+        1 => match get_temperature("Enter ºF: ") {
+            Ok(t) => Ok(print_temperature(&Temperature::F(t))),
+            Err(e) => Err(e),
+        },
+        2 => match get_temperature("Enter ºC: ") {
+            Ok(t) => Ok(print_temperature(&Temperature::C(t))),
+            Err(e) => Err(e),
+        },
+        3 => Ok(print_common_table()),
+        _ => Ok(eprintln!("\nEnter 1, 2, 3, exit, or quit!\n")),
     }
 }
 
