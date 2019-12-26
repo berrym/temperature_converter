@@ -47,6 +47,10 @@ fn run_command(prog: &str, command: Command) -> Result<(), &'static str> {
                 Err("Error: Could not parse degrees Celsius!")
             }
         },
+        "list" => {
+            print_common_table();
+            Ok(())
+        }
         "help" => {
             help(prog);
             Ok(())
@@ -65,8 +69,12 @@ fn help(prog: &str) {
     eprintln!("\tConvert given degrees Fahrenheit to Celsius\n");
     eprintln!("{} ctof degrees_celsius", prog);
     eprintln!("\tConvert given degrees Celsius to Fahrenheit\n");
+    eprintln!("{} list", prog);
+    eprintln!("\tPrint a list of common conversions\n");
     eprintln!("{}", prog);
-    eprintln!("\tRun interactive program");
+    eprintln!("\tRun interactive program\n");
+    eprintln!("{} help", prog);
+    eprintln!("\tThis help message");
 }
 
 // Run an interactive loop of the program
@@ -108,10 +116,11 @@ fn run_interactive_loop() {
 
 // Print a common list of conversions
 fn print_common_table() {
-    let celsius_table: Vec<f64> = vec![
-        -40.0, -30.0, -20.0, -10.0, 0.0, 10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0,
-        100.0,
-    ];
+    let mut celsius_table: Vec<f64> = vec![-40.0];
+    for n in (-40..100).step_by(10) {
+        celsius_table.push(n as f64 + 10.0);
+    }
+
     let fahrenheit_table: Vec<f64> = celsius_table
         .iter()
         .cloned()

@@ -21,6 +21,7 @@ Use Rust's own tooling to compile and run the program, e.g.
 * cargo run
 * cargo run ftoc 98.6
 * cargo run ctof 37
+* cargo run list
 
 ## Help
 
@@ -30,10 +31,16 @@ For help on the available commands run
 
 ## Authors
 
+Copyright 2019
 Michael Berry <trismegustis@gmail.com>
 
 ## Version History
 
+* 0.1.3
+    * Calculate the list of common Celsius values instead of hard coding.
+    * Allow running list command as a one off from the command line.
+* 0.1.2
+    * Added an option to print a list of common conversions.
 * 0.1.1
     * Refactored the way commands are parsed and handled.
 * 0.1.0
