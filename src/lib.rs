@@ -17,7 +17,7 @@ pub mod temperatures {
         c * (9.0 / 5.0) + 32.0
     }
 
-    // Convert temperatures
+    /// Convert temperatures
     pub fn convert(temperature: &Temperature) -> f64 {
         match *temperature {
             Temperature::F(degrees) => f_to_c(degrees),
@@ -43,7 +43,7 @@ pub mod temperatures {
         );
     }
 
-    // Print temperature conversions
+    /// Print temperature conversions
     pub fn print_temperature(temperature: &Temperature) {
         match *temperature {
             Temperature::F(degrees) => print_f_to_c(degrees),
@@ -55,7 +55,7 @@ pub mod temperatures {
         use std::io;
         use std::io::Write;
 
-        // Get a temperature from user and parse it into a usable number
+        /// Get a temperature from user and parse it into a usable number
         pub fn get_temperature(prompt: &'static str) -> Result<f64, &'static str> {
             print!("{}", prompt);
             io::stdout().flush().unwrap();
