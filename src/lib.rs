@@ -1,36 +1,7 @@
-pub mod command {
-    pub struct Command {
-        pub command: String,
-        pub degrees: String,
-    }
-
-    impl Command {
-        pub fn new(args: &[String]) -> Result<Command, &'static str> {
-            let command: String;
-            let degrees: String;
-
-            match args.len() {
-                1 => {
-                    command = "interactive".to_string();
-                    degrees = "".to_string();
-                }
-                2 => {
-                    command = args[1].to_string();
-                    degrees = "".to_string();
-                }
-                3 => {
-                    command = args[1].to_string();
-                    degrees = args[2].to_string();
-                }
-                _ => return Err("Wrong number of arguments!"),
-            }
-
-            Ok(Command { command, degrees })
-        }
-    }
-}
+#![crate_name = "temperature_conversion"]
 
 pub mod temperatures {
+    /// Represents a valid temperature in Fahrenheit or Celsius
     pub enum Temperature {
         F(f64),
         C(f64),
@@ -79,6 +50,31 @@ pub mod temperatures {
             Temperature::C(degrees) => print_c_to_f(degrees),
         }
     }
+
+    mod user_input {
+        use std::io;
+        use std::io::Write;
+
+        // Get a temperature from user and parse it into a usable number
+        pub fn get_temperature(prompt: &'static str) -> Result<f64, &'static str> {
+            print!("{}", prompt);
+            io::stdout().flush().unwrap();
+
+            let mut temperature = String::new();
+            io::stdin()
+                .read_line(&mut temperature)
+                .expect("Failed to read line!");
+
+            let temperature = match temperature.trim().parse() {
+                Ok(t) => t,
+                Err(_) => return Err("\nInvalid input!\n"),
+            };
+
+            Ok(temperature)
+        }
+    }
+
+    pub use user_input::get_temperature;
 }
 
 // Run some tests

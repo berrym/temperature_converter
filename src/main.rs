@@ -3,8 +3,14 @@ use std::io;
 use std::io::Write;
 use std::process;
 
-use temperature_conversion::command::Command;
-use temperature_conversion::temperatures::{convert, print_temperature, Temperature};
+// Import command parsing attributes
+mod command;
+use command::Command;
+
+// Import termperature conversion attributes
+use temperature_conversion::temperatures::{
+    convert, get_temperature, print_temperature, Temperature,
+};
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -151,22 +157,4 @@ fn match_user_choice(choice: u8) -> Result<(), &'static str> {
         3 => Ok(print_common_table()),
         _ => Ok(eprintln!("\nEnter 1, 2, 3, exit, or quit!\n")),
     }
-}
-
-// Get a temperature from user and parse it into a usable number
-fn get_temperature(prompt: &'static str) -> Result<f64, &'static str> {
-    print!("{}", prompt);
-    io::stdout().flush().unwrap();
-
-    let mut temperature = String::new();
-    io::stdin()
-        .read_line(&mut temperature)
-        .expect("Failed to read line!");
-
-    let temperature = match temperature.trim().parse() {
-        Ok(t) => t,
-        Err(_) => return Err("\nInvalid input!\n"),
-    };
-
-    Ok(temperature)
 }

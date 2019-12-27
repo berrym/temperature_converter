@@ -36,6 +36,9 @@ Michael Berry <trismegustis@gmail.com>
 
 ## Version History
 
+* 0.1.4
+    * Moved mod command into it's own source file.
+    * Added some doc tests.
 * 0.1.3
     * Calculate the list of common Celsius values instead of hard coding.
     * Allow running list command as a one off from the command line.
