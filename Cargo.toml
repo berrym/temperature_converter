@@ -1,6 +1,6 @@
 [package]
 name = "temperature_converter"
-version = "0.1.4"
+version = "0.1.5"
 authors = ["Michael Berry <trismegustis@gmail.com>"]
 edition = "2018"
 

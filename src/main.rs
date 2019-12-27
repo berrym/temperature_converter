@@ -1,11 +1,10 @@
-use std::env;
 use std::io;
 use std::io::Write;
 use std::process;
 
 // Import command parsing attributes
 mod command;
-use command::Command;
+use command::{parse_command_line, Command};
 
 // Import termperature conversion attributes
 use temperature_conversion::temperatures::{
@@ -13,14 +12,15 @@ use temperature_conversion::temperatures::{
 };
 
 fn main() {
-    let args: Vec<String> = env::args().collect();
+    let prog = "temperature_converter";
 
-    let command = Command::new(&args).unwrap_or_else(|e| {
-        eprintln!("Problem parsing arguments: {}", e);
+    let command = parse_command_line().unwrap_or_else(|e| {
+        eprintln!("Could not parse command line: {}\n", e);
+        help(prog);
         process::exit(1);
     });
 
-    if let Err(e) = run_command(&args[0], command) {
+    if let Err(e) = run_command(prog, command) {
         eprintln!("\n{}\n", e);
         process::exit(1);
     };
@@ -53,7 +53,7 @@ fn run_command(prog: &str, command: Command) -> Result<(), &'static str> {
                 Err("Error: Could not parse degrees Celsius!")
             }
         },
-        "list" => {
+        "table" => {
             print_common_table();
             Ok(())
         }
@@ -75,7 +75,7 @@ fn help(prog: &str) {
     eprintln!("\tConvert given degrees Fahrenheit to Celsius\n");
     eprintln!("{} ctof degrees_celsius", prog);
     eprintln!("\tConvert given degrees Celsius to Fahrenheit\n");
-    eprintln!("{} list", prog);
+    eprintln!("{} table", prog);
     eprintln!("\tPrint a list of common conversions\n");
     eprintln!("{}", prog);
     eprintln!("\tRun interactive program\n");

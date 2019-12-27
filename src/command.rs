@@ -1,4 +1,6 @@
 pub mod command {
+    use std::env;
+
     /// Representation of a valid command
     pub struct Command {
         pub command: String,
@@ -43,6 +45,14 @@ pub mod command {
             Ok(Command { command, degrees })
         }
     }
+
+    pub fn parse_command_line() -> Result<Command, &'static str> {
+        let args: Vec<String> = env::args().collect();
+        match Command::new(&args) {
+            Ok(c) => return Ok(c),
+            Err(e) => return Err(e),
+        }
+    }
 }
 
-pub use command::Command;
+pub use command::{parse_command_line, Command};

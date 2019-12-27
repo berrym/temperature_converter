@@ -35,7 +35,8 @@ Copyright 2019
 Michael Berry <trismegustis@gmail.com>
 
 ## Version History
-
+* 0.1.5
+    * New function parse_command_line in mod command.
 * 0.1.4
     * Moved mod command into it's own source file.
     * Added some doc tests.
