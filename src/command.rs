@@ -28,7 +28,7 @@ pub mod command {
             // Parse command and degrees based on number of arguments given
             match args.len() {
                 1 => {
-                    command = "interactive".to_string();
+                    command = "usage".to_string();
                     degrees = "".to_string();
                 }
                 2 => {

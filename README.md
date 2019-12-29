@@ -21,13 +21,11 @@ Use Rust's own tooling to compile and run the program, e.g.
 * cargo run
 * cargo run ftoc 98.6
 * cargo run ctof 37
-* cargo run list
+* cargo run table
 
 ## Help
 
-For help on the available commands run
-
-* cargo run help
+For help on the available commands run the command without options.
 
 ## Authors
 
@@ -35,6 +33,9 @@ Copyright 2019
 Michael Berry <trismegustis@gmail.com>
 
 ## Version History
+* 0.1.6
+    * New function usage replaces old function help.
+	* Some (hopefully) improvements to the ease of use.
 * 0.1.5
     * New function parse_command_line in mod command.
 * 0.1.4

@@ -1,3 +1,5 @@
+use std::env;
+use std::fs;
 use std::io;
 use std::io::Write;
 use std::process;
@@ -12,83 +14,75 @@ use temperature_conversion::temperatures::{
 };
 
 fn main() {
-    let prog = "temperature_converter";
-
     let command = parse_command_line().unwrap_or_else(|e| {
         eprintln!("Could not parse command line: {}\n", e);
-        help(prog);
+        usage();
         process::exit(1);
     });
 
-    if let Err(e) = run_command(prog, command) {
+    if let Err(e) = run_command(command) {
         eprintln!("\n{}\n", e);
         process::exit(1);
     };
 }
 
 // Run one of the available commands
-fn run_command(prog: &str, command: Command) -> Result<(), &'static str> {
+fn run_command(command: Command) -> Result<(), &'static str> {
     match command.command.as_str() {
-        "interactive" => {
-            run_interactive_loop();
-            Ok(())
-        }
+        "help" => Ok(usage()),
+        "usage" => Ok(usage()),
+        "table" => Ok(print_common_table()),
+        "interactive" => Ok(run_interactive_loop()),
         "ftoc" => match command.degrees.parse() {
-            Ok(t) => {
-                print_temperature(&Temperature::F(t));
-                Ok(())
-            }
+            Ok(t) => Ok(print_temperature(&Temperature::F(t))),
             Err(_) => {
-                help(prog);
+                usage();
                 Err("Error: Could not parse degrees Fahrenheit!")
             }
         },
         "ctof" => match command.degrees.parse() {
-            Ok(t) => {
-                print_temperature(&Temperature::C(t));
-                Ok(())
-            }
+            Ok(t) => Ok(print_temperature(&Temperature::C(t))),
             Err(_) => {
-                help(prog);
+                usage();
                 Err("Error: Could not parse degrees Celsius!")
             }
         },
-        "table" => {
-            print_common_table();
-            Ok(())
-        }
-        "help" => {
-            help(prog);
-            Ok(())
-        }
         _ => {
-            help(prog);
+            usage();
             Err("Error: Unknown command!")
         }
     }
 }
 
-// Display help
-fn help(prog: &str) {
-    eprintln!("Valid commands\n");
-    eprintln!("{} ftoc degrees_fahrenheit", prog);
-    eprintln!("\tConvert given degrees Fahrenheit to Celsius\n");
-    eprintln!("{} ctof degrees_celsius", prog);
-    eprintln!("\tConvert given degrees Celsius to Fahrenheit\n");
-    eprintln!("{} table", prog);
-    eprintln!("\tPrint a list of common conversions\n");
-    eprintln!("{}", prog);
-    eprintln!("\tRun interactive program\n");
-    eprintln!("{} help", prog);
-    eprintln!("\tThis help message");
+// Display usage information
+fn usage() {
+    let args: Vec<String> = env::args().collect();
+    let prog = &args[0];
+    match fs::read_to_string("usage.txt") {
+        Ok(t) => println!("{}", t),
+        Err(_) => {
+            eprintln!("Valid commands\n");
+            eprintln!("{} ftoc degrees_fahrenheit", prog);
+            eprintln!("\tConvert given degrees Fahrenheit to Celsius\n");
+            eprintln!("{} ctof degrees_celsius", prog);
+            eprintln!("\tConvert given degrees Celsius to Fahrenheit\n");
+            eprintln!("{} table", prog);
+            eprintln!("\tPrint a list of common conversions\n");
+            eprintln!("{} interactive", prog);
+            eprintln!("\tRun interactive program\n");
+            eprintln!("{} help or usage", prog);
+            eprintln!("\tThis help message");
+        }
+    };
 }
 
 // Run an interactive loop of the program
 fn run_interactive_loop() {
     println!("Temperature Converter\n");
-    println!("Type 'exit' or 'quit' to leave\n");
+    println!("Type 'exit' or 'quit' to leave at anytime\n");
 
     loop {
+        println!("Enter a number to run a function listed below.\n");
         println!("1: Fahrenheit to Celsius");
         println!("2: Celsius to Fahrenheit");
         println!("3: Print a list of common conversions\n");
