@@ -129,14 +129,4 @@ mod tests {
             -40.0
         );
     }
-
-    #[test]
-    fn test_command_new_ok() -> Result<(), &'static str> {
-        let args: Vec<String> = vec!["1".to_string(), "2".to_string()];
-        let command = command::Command::new(&args);
-        match command {
-            Ok(_c) => return Ok(()),
-            Err(e) => return Err(e),
-        }
-    }
 }
