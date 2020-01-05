@@ -1,8 +1,7 @@
 use std::process;
 
 // Import command parsing attributes
-mod commands;
-use commands::{parse_command_line, run_command, usage};
+use temperature_converter::commands::{parse_command_line, run_command, usage};
 
 fn main() {
     // Parse the command line to get a command
