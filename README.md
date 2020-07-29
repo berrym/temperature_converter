@@ -18,21 +18,26 @@ Clone the git repository from https://github.com/berrym/temperature_converter.gi
 
 Use Rust's own tooling to compile and run the program, e.g.
 
-* cargo run
-* cargo run ftoc 98.6
-* cargo run ctof 37
-* cargo run table
+* cargo run -- -f 98.6
+* cargo run -- -c 37
+* cargo run -- --table
 
 ## Help
 
-For help on the available commands run the command without options.
+For help on the available commands run the help command.
+
+* cargo run -- help
 
 ## Authors
 
-Copyright 2019
+Copyright 2020
 Michael Berry <trismegustis@gmail.com>
 
 ## Version History
+* 0.1.7
+    * Use clap crate for command line parsing.
+    * Remove interactive functions.
+
 * 0.1.6
     * New function usage replaces old function help.
 	* Some (hopefully) improvements to the ease of use.

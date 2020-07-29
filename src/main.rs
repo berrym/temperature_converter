@@ -1,19 +1,52 @@
-use std::process;
+use clap::{App, Arg};
 
-// Import command parsing attributes
-use temperature_converter::commands::{parse_command_line, run_command, usage};
+use temperature_converter::temperatures;
 
-fn main() {
-    // Parse the command line to get a command
-    let command = parse_command_line().unwrap_or_else(|e| {
-        eprintln!("Could not parse command line: {}\n", e);
-        usage();
-        process::exit(1);
-    });
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let cli = App::new("Fibonacci Generator")
+        .version("0.1.7")
+        .author("Michael Berry <trismegustis@gmail.com>")
+        .about("Convert between Fahrenheit and Celsius")
+        .arg(
+            Arg::with_name("Fahrenheit to Celsius")
+                .short("ftoc")
+                .long("fahrenheit-to-celsius")
+                .help("Convert degree Fahrenheit to Celsius")
+                .takes_value(true),
+        )
+        .arg(
+            Arg::with_name("Celsius to Fahrenheit")
+                .short("ctof")
+                .long("celsius-to-fahrenheit")
+                .help("Convert degree Celsius to Fahrenheit")
+                .takes_value(true),
+        )
+        .arg(
+            Arg::with_name("table")
+                .short("t")
+                .long("table")
+                .help("Print a list of common conversions"),
+        )
+        .get_matches();
 
-    // Run the parsed command
-    if let Err(e) = run_command(command) {
-        eprintln!("\n{}\n", e);
-        process::exit(1);
-    };
+    if cli.is_present("Fahrenheit to Celsius") {
+        if let Some(n) = cli.value_of("Fahrenheit to Celsius") {
+            match n.parse() {
+                Ok(n) => temperatures::print_f_to_c(n),
+                Err(e) => eprintln!("Error: {}", e),
+            }
+        };
+    } else if cli.is_present("Celsius to Fahrenheit") {
+        if let Some(n) = cli.value_of("Celsius to Fahrenheit") {
+            match n.parse() {
+                Ok(n) => temperatures::print_c_to_f(n),
+                Err(e) => eprintln!("Error: {}", e),
+            }
+        };
+    } else if cli.is_present("table") {
+        temperatures::print_common_table();
+    } else {
+        eprintln!("{}\n\nTry passing --help for more information", cli.usage());
+    }
+    Ok(())
 }
