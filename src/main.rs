@@ -9,7 +9,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .about("Convert between Fahrenheit and Celsius")
         .arg(
             Arg::with_name("Fahrenheit to Celsius")
-                .short("ftoc")
+                .short("f")
                 .long("fahrenheit-to-celsius")
                 .help("Convert degree Fahrenheit to Celsius")
                 .takes_value(true)
@@ -17,7 +17,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         )
         .arg(
             Arg::with_name("Celsius to Fahrenheit")
-                .short("ctof")
+                .short("c")
                 .long("celsius-to-fahrenheit")
                 .help("Convert degree Celsius to Fahrenheit")
                 .takes_value(true)
