@@ -4,7 +4,7 @@ use temperature_converter::temperatures;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let cli = App::new("Fibonacci Generator")
-        .version("0.1.7")
+        .version("0.1.8")
         .author("Michael Berry <trismegustis@gmail.com>")
         .about("Convert between Fahrenheit and Celsius")
         .arg(
@@ -12,17 +12,19 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .short("ftoc")
                 .long("fahrenheit-to-celsius")
                 .help("Convert degree Fahrenheit to Celsius")
-                .takes_value(true),
+                .takes_value(true)
+                .allow_hyphen_values(true),
         )
         .arg(
             Arg::with_name("Celsius to Fahrenheit")
                 .short("ctof")
                 .long("celsius-to-fahrenheit")
                 .help("Convert degree Celsius to Fahrenheit")
-                .takes_value(true),
+                .takes_value(true)
+                .allow_hyphen_values(true),
         )
         .arg(
-            Arg::with_name("table")
+            Arg::with_name("Print common table")
                 .short("t")
                 .long("table")
                 .help("Print a list of common conversions"),
@@ -43,7 +45,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 Err(e) => eprintln!("Error: {}", e),
             }
         };
-    } else if cli.is_present("table") {
+    } else if cli.is_present("Print common table") {
         temperatures::print_common_table();
     } else {
         eprintln!("{}\n\nTry passing --help for more information", cli.usage());

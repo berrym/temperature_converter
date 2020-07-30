@@ -24,19 +24,19 @@ pub mod temperatures {
         }
     }
 
-    // Print degrees Fahrenheit to Celsius
+    /// Print degrees Fahrenheit to Celsius
     pub fn print_f_to_c(degrees: f64) {
         println!(
-            "\n{:.2}ºF = {:.2}ºC\n",
+            "\n{:.2}॰F = {:.2}॰C\n",
             degrees,
             convert(&Temperature::F(degrees))
         );
     }
 
-    // Print degrees Celsius to Fahrenheit
+    /// Print degrees Celsius to Fahrenheit
     pub fn print_c_to_f(degrees: f64) {
         println!(
-            "\n{:.2}ºC = {:.2}ºF\n",
+            "\n{:.2}॰C = {:.2}॰F\n",
             degrees,
             convert(&Temperature::C(degrees))
         );
@@ -49,8 +49,8 @@ pub mod temperatures {
             Temperature::C(degrees) => print_c_to_f(degrees),
         }
     }
-    
-    // Print a common table of conversions
+
+    /// Print a common table of conversions
     pub fn print_common_table() {
         let mut celsius_table: Vec<f64> = vec![-40.0];
         for n in (-40..100).step_by(10) {
@@ -68,7 +68,7 @@ pub mod temperatures {
             .cloned()
             .zip(fahrenheit_table.iter().cloned())
         {
-            println!("{:7.2}ºC = {:7.2}ºF", x, y);
+            println!("{:7.2}॰C = {:7.2}॰F", x, y);
         }
         println!();
     }

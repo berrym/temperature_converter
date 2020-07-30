@@ -34,10 +34,12 @@ Copyright 2020
 Michael Berry <trismegustis@gmail.com>
 
 ## Version History
+* 0.1.8
+    * Fixed parsing of negative values as command line arguments.
+    * Changes unicode symbol to represent temperature degrees.
 * 0.1.7
     * Use clap crate for command line parsing.
     * Remove interactive functions.
-
 * 0.1.6
     * New function usage replaces old function help.
 	* Some (hopefully) improvements to the ease of use.
