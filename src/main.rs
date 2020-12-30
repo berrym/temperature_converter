@@ -3,7 +3,7 @@ use clap::{App, Arg};
 use temperature_converter::temperatures;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let cli = App::new("Fibonacci Generator")
+    let cli = App::new("Temperature Converter")
         .version("0.1.8")
         .author("Michael Berry <trismegustis@gmail.com>")
         .about("Convert between Fahrenheit and Celsius")
