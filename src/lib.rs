@@ -6,12 +6,12 @@ pub mod temperatures {
     }
 
     // Convert Fahrenheit to Celsius
-    fn f_to_c(f: f64) -> f64 {
+    fn farenheit_to_celsius(f: f64) -> f64 {
         (f - 32.0) * (5.0 / 9.0)
     }
 
     // Convert Celsius to Fahrenheit
-    fn c_to_f(c: f64) -> f64 {
+    fn celsius_to_farenheit(c: f64) -> f64 {
         c * (9.0 / 5.0) + 32.0
     }
 
@@ -19,13 +19,13 @@ pub mod temperatures {
     /// and convert it to the opposite scale.
     pub fn convert(temperature: &Temperature) -> f64 {
         match *temperature {
-            Temperature::F(degrees) => f_to_c(degrees),
-            Temperature::C(degrees) => c_to_f(degrees),
+            Temperature::F(degrees) => farenheit_to_celsius(degrees),
+            Temperature::C(degrees) => celsius_to_farenheit(degrees),
         }
     }
 
-    /// Print degrees Fahrenheit to Celsius
-    pub fn print_f_to_c(degrees: f64) {
+    // Print degrees Fahrenheit to Celsius
+    fn print_farenheit_to_celsius(degrees: f64) {
         println!(
             "\n{:.2}॰F = {:.2}॰C\n",
             degrees,
@@ -33,8 +33,8 @@ pub mod temperatures {
         );
     }
 
-    /// Print degrees Celsius to Fahrenheit
-    pub fn print_c_to_f(degrees: f64) {
+    // Print degrees Celsius to Fahrenheit
+    fn print_celsius_to_farenheit(degrees: f64) {
         println!(
             "\n{:.2}॰C = {:.2}॰F\n",
             degrees,
@@ -45,8 +45,8 @@ pub mod temperatures {
     /// Print temperature conversions
     pub fn print_temperature(temperature: &Temperature) {
         match *temperature {
-            Temperature::F(degrees) => print_f_to_c(degrees),
-            Temperature::C(degrees) => print_c_to_f(degrees),
+            Temperature::F(degrees) => print_farenheit_to_celsius(degrees),
+            Temperature::C(degrees) => print_celsius_to_farenheit(degrees),
         }
     }
 

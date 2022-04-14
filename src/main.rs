@@ -1,10 +1,10 @@
 use clap::{App, Arg};
 
-use temperature_converter::temperatures;
+use temperature_converter::temperatures::{print_common_table, print_temperature, Temperature};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let cli = App::new("Temperature Converter")
-        .version("0.1.8")
+        .version("0.1.9")
         .author("Michael Berry <trismegustis@gmail.com>")
         .about("Convert between Fahrenheit and Celsius")
         .arg(
@@ -34,19 +34,19 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     if cli.is_present("Fahrenheit to Celsius") {
         if let Some(n) = cli.value_of("Fahrenheit to Celsius") {
             match n.parse() {
-                Ok(n) => temperatures::print_f_to_c(n),
+                Ok(n) => print_temperature(&Temperature::F(n)),
                 Err(e) => eprintln!("Error: {}", e),
             }
         };
     } else if cli.is_present("Celsius to Fahrenheit") {
         if let Some(n) = cli.value_of("Celsius to Fahrenheit") {
             match n.parse() {
-                Ok(n) => temperatures::print_c_to_f(n),
+                Ok(n) => print_temperature(&Temperature::C(n)),
                 Err(e) => eprintln!("Error: {}", e),
             }
         };
     } else if cli.is_present("Print common table") {
-        temperatures::print_common_table();
+        print_common_table();
     } else {
         eprintln!("{}\n\nTry passing --help for more information", cli.usage());
     }
