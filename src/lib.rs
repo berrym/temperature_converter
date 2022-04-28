@@ -1,4 +1,4 @@
-pub mod temperatures {
+pub mod temperature_conversion {
     /// Represents a valid temperature in Fahrenheit or Celsius
     pub enum Temperature {
         F(f64),
@@ -43,7 +43,7 @@ pub mod temperatures {
     }
 
     /// Print temperature conversions
-    pub fn print_temperature(temperature: &Temperature) {
+    pub fn print_temperature_conversion(temperature: &Temperature) {
         match *temperature {
             Temperature::F(degrees) => print_farenheit_to_celsius(degrees),
             Temperature::C(degrees) => print_celsius_to_farenheit(degrees),
@@ -80,33 +80,33 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_0c_to_f() {
+    fn test_0_degrees_celsius_to_farenheit() {
         assert_eq!(
-            temperatures::convert(&temperatures::Temperature::C(0.0)),
+            temperature_conversion::convert(&temperature_conversion::Temperature::C(0.0)),
             32.0
         );
     }
 
     #[test]
-    fn test_100c_to_f() {
+    fn test_100_degrees_celsius_to_farenheit() {
         assert_eq!(
-            temperatures::convert(&temperatures::Temperature::C(100.0)),
+            temperature_conversion::convert(&temperature_conversion::Temperature::C(100.0)),
             212.0
         );
     }
 
     #[test]
-    fn test_32f_to_c() {
+    fn test_32_degrees_farenheit_to_celsius() {
         assert_eq!(
-            temperatures::convert(&temperatures::Temperature::F(32.0)),
+            temperature_conversion::convert(&temperature_conversion::Temperature::F(32.0)),
             0.0
         );
     }
 
     #[test]
-    fn test_212f_to_c() {
+    fn test_212_degrees_farenheit_to_celsius() {
         assert_eq!(
-            temperatures::convert(&temperatures::Temperature::F(212.0)),
+            temperature_conversion::convert(&temperature_conversion::Temperature::F(212.0)),
             100.0
         );
     }
@@ -114,15 +114,15 @@ mod tests {
     #[test]
     fn test_98_6f_to_c() {
         assert_eq!(
-            temperatures::convert(&temperatures::Temperature::F(98.6)),
+            temperature_conversion::convert(&temperature_conversion::Temperature::F(98.6)),
             37.0
         );
     }
 
     #[test]
-    fn test_neg_40() {
+    fn test_negative_degrees_40_equality() {
         assert_eq!(
-            temperatures::convert(&temperatures::Temperature::C(-40.0)),
+            temperature_conversion::convert(&temperature_conversion::Temperature::C(-40.0)),
             -40.0
         );
     }

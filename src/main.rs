@@ -1,6 +1,8 @@
 use clap::{App, Arg};
 
-use temperature_converter::temperatures::{print_common_table, print_temperature, Temperature};
+use temperature_converter::temperature_conversion::{
+    print_common_table, print_temperature_conversion, Temperature,
+};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let cli = App::new("Temperature Converter")
@@ -34,14 +36,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     if cli.is_present("Fahrenheit to Celsius") {
         if let Some(n) = cli.value_of("Fahrenheit to Celsius") {
             match n.parse() {
-                Ok(n) => print_temperature(&Temperature::F(n)),
+                Ok(n) => print_temperature_conversion(&Temperature::F(n)),
                 Err(e) => eprintln!("Error: {}", e),
             }
         };
     } else if cli.is_present("Celsius to Fahrenheit") {
         if let Some(n) = cli.value_of("Celsius to Fahrenheit") {
             match n.parse() {
-                Ok(n) => print_temperature(&Temperature::C(n)),
+                Ok(n) => print_temperature_conversion(&Temperature::C(n)),
                 Err(e) => eprintln!("Error: {}", e),
             }
         };
